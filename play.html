@@ -1,0 +1,43 @@
+<!-- game -->
+<template name="tictactoe">
+    <div id="wrapper">
+        <img src="/picker_logo.png" width="100" height="70">
+        <div class="victoryContainer">
+            <div class="victory">
+                <h1>VICTORY</h1>
+            </div>
+        </div>
+        {{> game}}
+    </div>
+</template>
+<template name="game">
+    <div class="popContainer">
+        <div class="pop">
+            <img src="/o.png" data-action="tile/selectO" />
+            <img src="/x.png" data-action="tile/selectX" />
+        </div>
+    </div>
+    <div id="gameBase" class="Aligner">
+        {{> gameBoard}}
+    </div>
+    <div class="cancelContainer">
+        <div class="cancel" data-action="tile/cancel">
+            <h1>CANCEL</h1>
+        </div>
+    </div>
+</template>
+<template name="gameBoard">
+    <div class="gameBoard Aligner-item--fixed" style="width: {{dimensions.width}}px; height: {{dimensions.height}}px">
+        {{#each addIndex tiles}} {{> blockObj}} {{/each}}
+    </div>
+</template>
+<template name="blockObj">
+    <div class="blockObj">
+        <div class="tile Aligner" data-action="tile/press">
+            <div class="iconContainer">
+                <img src="/o_t.png" class="Aligner-item-fixed {{#if tileSet "o" (index) }} showTile {{else}} hideTile {{/if}}"/>
+                <img src="/x_t.png" class="Aligner-item-fixed {{#if tileSet "x" (index) }} showTile {{else}} hideTile {{/if}}" />
+            </div>
+        </div>
+    </div>
+</template>

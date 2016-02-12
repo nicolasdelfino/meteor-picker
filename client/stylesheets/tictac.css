@@ -1,37 +1,250 @@
 /* CSS declarations go here */
 
-html {
-    font-family: Roboto Condensed;
+body {
+    font-family: "Roboto Condensed";
 }
 
 h1 {
-    font-size: 14px;
+    visibility: visible;
+    font-size: 28px;
 }
+
+
+/*game wrapper*/
 
 #wrapper {
     width: 800px;
     margin: 0 auto;
     margin-top: 100px;
+    overflow: hidden;
+    /*background: black;*/
 }
+
+.hideTile {
+    opacity: 0;
+}
+
+.showTile {
+    opacity: 1;
+}
+
+/*scene wrapper*/
+
+#wWrapWrapper {
+    width: 800px;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 100px;
+    overflow: hidden;
+    background: black;
+}
+
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 0px !important;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+    height: auto;
+}
+
+.wWrap {
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    /*height: 225px;*/
+    background: white;
+    border: 1px solid #FF0000;
+    padding: 20px;
+    webkit-transition: height 1s;
+    -moz-transition: height 1s;
+    -ms-transition: height 1s;
+    -o-transition: height 1s;
+    transition: height 1s;
+}
+
+.bottom {
+    height: 40px;
+}
+
+.pickerLogo {
+    height: 70px;
+    margin-bottom: 20px;
+}
+
+
+/*---------------------------------------*/
+
+
+/*create */
+
+.pickerCreate {
+    display: block;
+}
+
+
+/*---------------------------------------*/
+
+.option1 {
+    display: none;
+}
+
+.option2 {
+    margin-top: 20px;
+    display: none;
+}
+
+.pickerGen {
+    display: none;
+}
+
+.genText {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+}
+
+.pickerOptions input {
+    width: 600px !important;
+    height: 60px !important;
+    background: red;
+    color: white;
+    border: 0px solid !important;
+    text-align: center;
+    font-size: 30px;
+    line-height: normal !important;
+}
+
+form {
+    border: 0px solid;
+}
+
+.normalised {}
+
+textarea:focus,
+input:focus {
+    outline: none !important;
+    border: none !important;
+    width: 600px !important;
+    height: 60px !important;
+    border: 0px solid !important;
+}
+
+.btnContainer {
+    position: relative;
+}
+
+.btn {
+    position: absolute;
+    width: 100px;
+    height: 47px;
+    background: red;
+    top: -62px;
+    right: -120px;
+    text-align: center;
+    font-size: 30px;
+    padding-top: 15px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    cursor: hand;
+}
+
+
+/*---------------------------------------*/
+
+.pickerBtn {
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    background: red;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.pickerBtnText {
+    color: white;
+    font-size: 30px;
+    padding-top: 12px;
+}
+
+
+/*---------------------------------------*/
+
+.pickerDummy {
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    background: red;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    margin-bottom: 20px;
+}
+
+.pickerDummyWhite {
+    margin-bottom: 5px;
+    margin-top: -15px;
+    background: white;
+}
+
+.pickerDummyText {
+    color: white;
+    font-size: 30px;
+    padding-top: 12px;
+}
+
+.pickerDummyTextBlack {
+    color: black;
+}
+
+.gitLink {
+    color: #B5B5B5;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.gitImage {
+    float: left;
+}
+
+.gitInfo {
+    float: left;
+    padding-top: 14px;
+    padding-left: 10px;
+}
+
+.gitLink img {
+    /*margin-top: 5px;*/
+}
+
+
+/*-------------------------------------------------------------------*/
 
 #gameBase {
     width: 100%;
     height: 400px;
-    background: #D5EAFF;
-    padding: 10px;
+    background: #202020;
+    /*padding: 10px;*/
     display: flex;
+    border-top: 10px solid #FFFFFF;
 }
 
 .gameBoard {
     width: inherit;
     height: inherit;
-    /*background: #DFD7D0;*/
-    /*border:1px solid #D3C9BE;*/
+    opacity: 0;
 }
 
 .blockObj {
-    width: inherit;
-    height: inherit;
+    width: 100px;
+    height: 100px;
     float: left;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -42,20 +255,28 @@ h1 {
 .tile {
     width: 100%;
     height: 100%;
-    /*background: #636363;*/
-    border: 1px dashed #B0B0B0;
+    border: 2px dashed #FFFFFF;
     cursor: pointer;
     cursor: hand;
     text-align: center;
 }
 
 .victoryTile {
-	background: #FFFFFF;
+    background: #000000;
+}
+
+.iconContainer {
+    position: relative;
+    width: 100px;
+    height: 100px;
 }
 
 .tile img {
+    position: absolute;
+    top:30px;
+    left:30px;
     /*padding-top: 30px;
-	padding-left: 30px;*/
+    padding-left: 30px;*/
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
@@ -71,28 +292,58 @@ h1 {
 }
 
 .pressed {
-    background: #A9A49E;
+    background: #000000;
+}
+
+.cancelContainer {
+    position: relative;
+    margin: 0 auto;
+}
+
+.cancel {
+    background: #0C0C0C;
+    color: #A7A7A7;
+    position: absolute;
+    width: 150px;
+    height: 48px;
+    text-align: center;
+    /*top:-58px;*/
+    top: 0px;
+    left: 325px;
+    border-radius: 24px;
+    /*display: none;*/
+    opacity: 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    /*user-select: none;
+    pointer-events: none;*/
+    cursor: pointer;
+    cursor: hand;
+}
+
+.cancel h1 {
+    color:#A7A7A7 !important;
+    font-size: 18px;
 }
 
 .victoryContainer {
-	
     position: relative;
     margin: 0 auto;
 }
 
 .victory {
-	/*background: red;*/
-	position: absolute;
-    width: 820px;
+    position: absolute;
+    width: 800px;
     height: 100px;
     text-align: center;
-    top:50px;
+    top: 50px;
     display: none;
 }
 
 .victory h1 {
-	padding-left:8px;
-	font-size: 25px;
+    padding-left: 8px;
+    font-size: 25px;
+    color: white;
 }
 
 .popContainer {
@@ -111,9 +362,9 @@ h1 {
     border-radius: 24px;
     /*pointer-events: none;*/
     z-index: 100;
-    -webkit-box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.25);
-    box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.35);
     text-align: center;
 }
 
@@ -126,27 +377,29 @@ h1 {
 }
 
 .blur {
-  filter: blur(2px);
-  -webkit-filter: blur(2px);
-  -moz-filter: blur(2px);
-  -o-filter: blur(2px);
-  -ms-filter: blur(2px);
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
 }
 
 .blur-more {
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
-  -moz-filter: blur(8px);
-  -o-filter: blur(8px);
-  -ms-filter: blur(8px);
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    -moz-filter: blur(8px);
+    -o-filter: blur(8px);
+    -ms-filter: blur(8px);
 }
+
+
 /* flexbox aligner helpers */
 
 .Aligner {
     display: flex;
     align-items: center;
-    height: inherit;
-    width: inherit;
+    height: 100px;
+    width: 100px;
     justify-content: center;
 }
 

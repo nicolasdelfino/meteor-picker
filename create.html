@@ -1,0 +1,64 @@
+<!-- init -->
+<template name="init">
+    <div class="outer">
+        <div class="middle">
+            <div class="wWrap">
+                <div class="top">
+                    <div class="pickerLogo">
+                        <img src="/picker_logo.png" width="100" height="70">
+                    </div>
+                </div>
+                <div class="wrap-content">
+                    <!-- scene 1 - create -->
+                    <div class="pickerCreate">
+                        <div class="pickerBtn">
+                            <div class="pickerBtnText" data-action="picker/create">CREATE</div>
+                        </div>
+                    </div>
+                    <!-- scene 2 - enter first option -->
+                    <div class="pickerOptions option1">
+                        <FORM>
+                            <INPUT id="option1" class="normalized" type="text" autofocus>
+                        </FORM>
+                        <div class="btnContainer">
+                            <div class="btn" data-action="picker/or">OR</div>
+                        </div>
+                    </div>
+                    <!-- scene 3 - enter second option -->
+                    <div class="pickerOptions option2">
+                        <div class="pickerDummy">
+                            <div class="pickerDummyText _option1_text"></div>
+                        </div>
+                        <div class="pickerDummy pickerDummyWhite">
+                            <div class="pickerDummyText pickerDummyTextBlack">OR</div>
+                        </div>
+                        <FORM>
+                            <INPUT id="option2" class="normalized" type="text" autofocus>
+                        </FORM>
+                        <div class="btnContainer">
+                            <div class="btn" data-action="picker/ok">OK</div>
+                        </div>
+                    </div>
+                    <!-- scene 4 - generated id screen -->
+                    <div class="pickerGen">
+                        <div class="pickerDummy pickerDummyWhite">
+                            <div id="game_id" class="pickerDummyText pickerDummyTextBlack genText">
+                                
+                            </div>
+                        </div>
+                        <div class="btnContainer">
+                            <div class="btn" data-action="picker/go">GO!</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <!-- github link -->
+                    <div class="gitLink">
+                        <div class="gitImage"><img src="/git.png" width="45" height="45"></div>
+                        <div class="gitInfo">github.com/nicolasdelfino/meteor-picker</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
