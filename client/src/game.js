@@ -22,6 +22,8 @@ if (Meteor.isClient) {
     var tiles = [];
     var selectedTile = null;
 
+    var popSelect = "";
+
     Template.game.hooks({
         created: function() {
             console.log("game created");
@@ -30,21 +32,6 @@ if (Meteor.isClient) {
             console.log("game rendered");
 
             nameTileIcons();
-
-            // var cursor = TM.find(Session.get('activeGame'));
-            // cursor.observeChanges({
-            //     changed: function(id, matrix) {
-            //         // This code runs when a new object "object" was added to collection.
-            //         // setTimeout(updateGame, 1000);
-            //         console.log("=> update");
-            //         // hideTileIcons();
-            //         var game = TM.findOne(Session.get('activeGame'));
-            //         var matrix = game.matrix;
-            //         hideTileIcons();
-            //         updateBoard(matrix);
-            //         // removeTileBorders();
-            //     }
-            // });
 
             $(window).on('mousemove', mouseEvent);
 
@@ -59,8 +46,6 @@ if (Meteor.isClient) {
                 scale: 1
             });
 
-            // setTimeout(initGame, 1000);
-            // 
             console.log("ACTIVE GAME:" + Session.get('activeGame'));
             // 
             initGame();
@@ -77,6 +62,38 @@ if (Meteor.isClient) {
         var game = GAME.findOne(Session.get('activeGame'));
         // var matrix = game.matrix;
         // updateBoard(matrix);
+
+        $('.popX').css("display", "none");
+        $('.popO').css("display", "none");
+
+        if (game.cross == false && game.circle == false) {
+
+            Meteor.call('updatePlayerCross', game, function(error, success) {
+                if (error) {
+                    //
+                } else {
+                    console.log("up up 1");
+                    popSelect = "cross";
+                }
+            });
+
+        } else if (game.cross == true && game.circle == false) {
+
+            Meteor.call('updatePlayerCircle', game, function(error, success) {
+                if (error) {
+                    //
+                } else {
+                    console.log("up up 2");
+                    popSelect = "circle";
+                }
+            });
+
+        } else if (game.cross == true && game.circle == true) {
+            console.log("no more players");
+            console.log("up up 3");
+            popSelect = "none";
+        }
+
         removeTileBorders();
     }
 
@@ -239,10 +256,6 @@ if (Meteor.isClient) {
                 }
             }
 
-            // var game = TM.findOne(Session.get('activeGame'));
-            // var matrix = game.matrix;
-            // var matrix = getMatrix();
-
             Meteor.call('updateTile', Session.get('activeGame'), tileIndex, "o", function(error, success) {
                 if (success) {
                     // updateBoard();
@@ -266,7 +279,6 @@ if (Meteor.isClient) {
 
         for (var i = 0; i < matrix.length; i++) {
             var matrixTile = matrix[i];
-            // var tile = tiles[i];
 
             var x_tile = $('#' + i.toString() + '_x_tile');
             var o_tile = $('#' + i.toString() + '_o_tile');
@@ -280,18 +292,12 @@ if (Meteor.isClient) {
 
             if (matrixTile === "x") {
 
-                // $('#' + i.toString() + '_x_tile').removeClass('hideTile');
-                // $('#' + i.toString() + '_x_tile').addClass('showTile');
-
                 TweenLite.to(x_tile, 0.5, {
                     alpha: 1,
                     delay: 0.2
                 });
 
             } else if (matrixTile === "o") {
-
-                // $('#' + i.toString() + '_o_tile').removeClass('hideTile');
-                // $('#' + i.toString() + '_o_tile').addClass('showTile');
 
                 TweenLite.to(o_tile, 0.5, {
                     alpha: 1,
@@ -435,25 +441,42 @@ if (Meteor.isClient) {
         var offY = $('.gameBoard').offset().top - $('#gameBase').offset().top;
         var offX = $('.gameBoard').offset().left - $('#gameBase').offset().left;
 
-        $('.pop').css('top', (offY + pos.y - $('.pop').height() / 2) + 'px');
-        $('.pop').css('left', (offX + pos.x - $('.pop').width() / 2) + 'px');
-
         TweenLite.to($('.gameBoard'), 0.2, {
             scale: 0.7,
         });
 
-        $('.gameBoard').addClass('blur');
-        //scale it down to zero
-        TweenLite.to($('.pop'), 0, {
-            scale: 0
-        });
-        //make it visible
-        $('.pop').css('display', 'block');
-        //and make it pop
-        TweenLite.to($('.pop'), 0.5, {
-            scale: 1,
-            ease: Bounce.easeOut
-        });
+
+        if (popSelect == "cross") {
+
+            $('.popX').css('top', (offY + pos.y - $('.popX').height() / 2) + 'px');
+            $('.popX').css('left', (offX + pos.x - $('.popX').width() / 2) + 'px');
+
+            TweenLite.to($('.popX'), 0, {
+                scale: 0
+            });
+            //make it visible
+            $('.popX').css('display', 'block');
+            //and make it pop
+            TweenLite.to($('.popX'), 0.5, {
+                scale: 1,
+                ease: Bounce.easeOut
+            });
+        } else if (popSelect == "circle") {
+
+            $('.popO').css('top', (offY + pos.y - $('.popO').height() / 2) + 'px');
+            $('.popO').css('left', (offX + pos.x - $('.popO').width() / 2) + 'px');
+
+            TweenLite.to($('.popO'), 0, {
+                scale: 0
+            });
+            //make it visible
+            $('.popO').css('display', 'block');
+            //and make it pop
+            TweenLite.to($('.popO'), 0.5, {
+                scale: 1,
+                ease: Bounce.easeOut
+            });
+        }
 
         //show cancel btn:
         TweenLite.to($('.cancel'), 0.5, {
@@ -469,10 +492,17 @@ if (Meteor.isClient) {
 
         $(selectedTile).removeClass('pressed');
 
-        TweenLite.to($('.pop'), 0.2, {
-            scale: 0,
-            ease: Power4.Strong
-        });
+        if (popSelect == "cross") {
+            TweenLite.to($('.popX'), 0.2, {
+                scale: 0,
+                ease: Power4.Strong
+            });
+        } else if (popSelect == "circle") {
+            TweenLite.to($('.popO'), 0.2, {
+                scale: 0,
+                ease: Power4.Strong
+            });
+        }
 
         $('.gameBoard').removeClass('blur');
 

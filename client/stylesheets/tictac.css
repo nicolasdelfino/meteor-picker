@@ -352,7 +352,7 @@ input:focus {
     position: relative;
 }
 
-.pop {
+.popO {
     position: absolute;
     width: 150px;
     height: 75px;
@@ -368,12 +368,31 @@ input:focus {
     text-align: center;
 }
 
-.pop img {
+.popX {
+    position: absolute;
+    width: 150px;
+    height: 75px;
+    background: white;
+    border: 2px solid #FFF;
+    display: none;
+    border-radius: 24px;
+    /*pointer-events: none;*/
+    z-index: 100;
+    -webkit-box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 0px 39px -4px rgba(0, 0, 0, 0.35);
+    text-align: center;
+}
+
+.popO img {
+    padding-top: 15px;
+}
+.popX img {
     padding-top: 15px;
 }
 
 .pop img:first-child {
-    margin-right: 20px;
+    /*margin-right: 20px;*/
 }
 
 .blur {
