@@ -233,7 +233,7 @@ input:focus {
     background: #202020;
     /*padding: 10px;*/
     display: flex;
-    border-top: 10px solid #FFFFFF;
+    /*border-top: 10px solid #FFFFFF;*/
 }
 
 .gameBoard {
@@ -411,7 +411,65 @@ input:focus {
     -ms-filter: blur(8px);
 }
 
+.hangContainer {
+    position: relative;
+}
 
+.hang {
+    position: absolute;
+    width: 800px;
+    height: 600px;
+    background: black;
+    z-index: 55;
+    opacity: .9;
+    text-align: center;
+}
+
+.hangCross {
+    display: none;
+}
+
+.hangCircle {
+    display: none;
+}
+
+.hang h1 {
+    opacity:1;
+    color:black;
+    font-size: 14px;
+    background: red;
+    margin-top: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.spectateContainer {
+    position: relative;
+    display: none;
+}
+.spectateBG {
+    position: absolute;
+    width: 800px;
+    height: 600px;
+    background: red;
+    z-index: 55;
+    opacity: .0;
+    text-align: center;
+}
+.spectate {
+    position: absolute;
+    width: 800px;
+    height: 600px;
+    text-align: center;
+}
+.spectate h1 {
+    color:black;
+    font-size: 14px;
+    background: red;
+    margin-top: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 /* flexbox aligner helpers */
 
 .Aligner {

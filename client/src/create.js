@@ -8,17 +8,33 @@ if (Meteor.isClient) {
         },
         rendered: function() {
 
+        	$('.sc2_or').hide();
+        	$('.sc3_ok').hide();
+
+            $('#option1').on('input', function() {
+                var input = $(this).val();
+                if (input.length > 0) {
+                    $('.sc2_or').fadeIn();
+                } else {
+                    $('.sc2_or').fadeOut();
+                }
+            });
+
+            $('#option2').on('input', function() {
+                var input = $(this).val();
+                if (input.length > 0) {
+                    $('.sc3_ok').fadeIn();
+                } else {
+                    $('.sc3_ok').fadeOut();
+                }
+            });
         },
         destroyed: function() {
             //
         }
     });
 
-    Template.init.helpers({
-    	// play: function () {
-    	// 	return TM.findOne(Session.get('activeGame'));
-    	// }
-    });
+    Template.init.helpers({});
 
     Template.init.events({
         "click [data-action='picker/create']": function(e, t) {
@@ -42,28 +58,28 @@ if (Meteor.isClient) {
         },
         "click [data-action='picker/or']": function(e, t) {
             console.log("picker or");
-            var opt1 =  $('#option1').val();
+            var opt1 = $('#option1').val();
 
             $('.pickerCreate').css('display', 'none');
             $('.option1').css('display', 'none');
             $('.option2').css('display', 'block');
             $('.pickerGen').css('display', 'none');
 
-            Meteor.call('updateOption1', Session.get('activeGame'), opt1); 
+            Meteor.call('updateOption1', Session.get('activeGame'), opt1);
 
             var option = GAME.findOne(Session.get('activeGame'));
             $('._option1_text').text(option.option1);
         },
         "click [data-action='picker/ok']": function(e, t) {
             console.log("picker ok");
-            var opt2 =  $('#option2').val();
+            var opt2 = $('#option2').val();
 
             $('.pickerCreate').css('display', 'none');
             $('.option1').css('display', 'none');
             $('.option2').css('display', 'none');
             $('.pickerGen').css('display', 'block');
 
-            Meteor.call('updateOption2', Session.get('activeGame'), opt2); 
+            Meteor.call('updateOption2', Session.get('activeGame'), opt2);
 
             $('#game_id').text("picker/" + Session.get('activeGame'));
         },
@@ -75,7 +91,9 @@ if (Meteor.isClient) {
             $('.pickerGen').css('display', 'none');
             $('.outer').css('display', 'none');
 
-            Router.go('play', {_id: Session.get('activeGame')});
+            Router.go('play', {
+                _id: Session.get('activeGame')
+            });
         }
     });
 }

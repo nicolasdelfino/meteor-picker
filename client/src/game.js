@@ -10,7 +10,7 @@ if (Meteor.isClient) {
         height: 300
     };
 
-    // keeps track of mouse position
+    // keeps track of mouse position to position popup bubble
     var mx = 0;
     var my = 0;
 
@@ -60,8 +60,6 @@ if (Meteor.isClient) {
     var initGame = function() {
         hideTileIcons();
         var game = GAME.findOne(Session.get('activeGame'));
-        // var matrix = game.matrix;
-        // updateBoard(matrix);
 
         $('.popX').css("display", "none");
         $('.popO').css("display", "none");
@@ -85,23 +83,96 @@ if (Meteor.isClient) {
                 } else {
                     console.log("up up 2");
                     popSelect = "circle";
+
+                    $('.hangCircle').fadeIn();
                 }
             });
 
         } else if (game.cross == true && game.circle == true) {
+
+            $('.spectateContainer').fadeIn();
+
             console.log("no more players");
             console.log("up up 3");
             popSelect = "none";
+
         }
 
         removeTileBorders();
+
+        var cursor = GAME.find(Session.get('activeGame'));
+        cursor.observe({
+            changed: function(newDocument, oldDocument) {
+                // console.log("old: " + JSON.stringify(oldDocument) + " new: " + JSON.stringify(newDocument));
+                var c = compare(oldDocument, newDocument);
+                var diff = c[0];
+                var diffTileType = diff[3]
+                console.log("diff: " + diffTileType);
+
+                if(diffTileType == "x"){
+                    controlHang("x");
+                }
+                else if(diffTileType == "o"){
+                    controlHang("o");
+                }
+            }
+        });
     }
 
-    var updateGame = function() {
+    // compare code found on the internet
+    var compare = function(obj1, obj2, _Q) {
+        _Q = (_Q == undefined) ? new Array : _Q;
 
-    }
+        function size(obj) {
+            var size = 0;
+            for (var keyName in obj) {
+                if (keyName != null) size++;
+            }
+            return size;
+        };
 
-    Template.tictactoe.helpers({});
+        if (size(obj1) != size(obj2)) {
+            //console.log('JSON compare - size not equal > '+keyName)
+        };
+
+        var newO2 = jQuery.extend(true, {}, obj2);
+
+        for (var keyName in obj1) {
+            var value1 = obj1[keyName],
+                value2 = obj2[keyName];
+
+            delete newO2[keyName];
+
+            if (typeof value1 != typeof value2 && value2 == undefined) {
+                _Q.push(['missing', keyName, value1, value2, obj1])
+            } else if (typeof value1 != typeof value2) {
+                _Q.push(['diffType', keyName, value1, value2, obj1])
+            } else {
+                // For jQuery objects:
+                if (value1 && value1.length && (value1[0] !== undefined && value1[0].tagName)) {
+                    if (!value2 || value2.length != value1.length || !value2[0].tagName || value2[0].tagName != value1[0].tagName) {
+                        _Q.push(['diffJqueryObj', keyName, value1, value2, obj1])
+                    }
+                } else if (value1 && value1.length && (value1.tagName !== value2.tagName)) {
+                    _Q.push(['diffHtmlObj', keyName, value1, value2, obj1])
+                } else if (typeof value1 == 'function' || typeof value2 == 'function') {
+                    _Q.push(['function', keyName, value1, value2, obj1])
+                } else if (typeof value1 == 'object') {
+                    var equal = Arcadia.Utility.CompareJson(value1, value2, _Q);
+                } else if (value1 != value2) {
+                    _Q.push(['diffValue', keyName, value1, value2, obj1])
+                }
+            };
+        }
+
+        for (var keyName in newO2) {
+            _Q.push(['new', keyName, obj1[keyName], newO2[keyName], newO2])
+        }
+
+        /*
+         */
+        return _Q;
+    }; // END compare()
 
     Template.game.helpers({
 
@@ -145,7 +216,6 @@ if (Meteor.isClient) {
                 $(this).attr('id', Math.floor(counter).toString() + '_o_tile');
                 o = false;
             } else {
-                // $(this).addClass(Math.floor(counter).toString() + '_x_tile hideTile');
                 $(this).attr('id', Math.floor(counter).toString() + '_x_tile');
                 o = true;
             }
@@ -221,19 +291,12 @@ if (Meteor.isClient) {
                 }
             }
 
-            // var game = TM.findOne(Session.get('activeGame'));
-            // var matrix = game.matrix;
-            // var matrix = getMatrix();
-
             Meteor.call('updateTile', Session.get('activeGame'), tileIndex, "x", function(error, success) {
                 if (success) {
-                    // updateBoard();
                     console.log("update success");
                     removePop();
-
-                    // console.log("return matrix: " + success.matrix)
-
                     // calcMatrix(success.matrix);
+                    
                 } else {
                     console.log("update error");
                 }
@@ -258,10 +321,9 @@ if (Meteor.isClient) {
 
             Meteor.call('updateTile', Session.get('activeGame'), tileIndex, "o", function(error, success) {
                 if (success) {
-                    // updateBoard();
-                    console.log("update success");
+
                     removePop();
-                    calcMatrix(success.matrix);
+                    // calcMatrix(success.matrix);
                 } else {
                     console.log("update error");
                 }
@@ -274,6 +336,37 @@ if (Meteor.isClient) {
             removePop();
         }
     });
+
+    var controlHang = function(type) {
+
+        //if player is cross
+        if (popSelect == "cross") {
+
+            //and a cross is added:
+            if (type == "x") {
+                $('.hangCross').fadeIn();
+            }
+            //or a circle is added
+            else if (type == "o") {
+                $('.hangCross').fadeOut();
+            }
+
+        }
+
+        //else if player is circle
+        else if (popSelect === "circle") {
+
+            //and a cross is added
+            if (type == "x") {
+                $('.hangCircle').fadeOut();
+            }
+            //or a circle is added
+            else if (type == "o") {
+                $('.hangCircle').fadeIn();
+            }
+
+        }
+    }
 
     var updateBoard = function(matrix) {
 
